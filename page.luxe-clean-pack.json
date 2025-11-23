@@ -1,0 +1,16 @@
+{
+  "sections": {
+    "luxe-clean": {
+      "type": "luxe-clean-landing",
+      "settings": {}
+    },
+    "luxe-skin": {
+      "type": "luxe-skin-landing",
+      "settings": {}
+    }
+  },
+  "order": [
+    "luxe-clean",
+    "luxe-skin"
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "sections": {
+    "main": {
+      "type": "luxe-clean-landing",
+      "settings": {}
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

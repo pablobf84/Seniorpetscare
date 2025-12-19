@@ -1,0 +1,16 @@
+{
+  "inputs": ["state/products.json", "state/seo.json"],
+  "outputs": ["state/seo.json"],
+  "rules": [
+    "Generate empathetic, informative copy tailored to senior pet owners.",
+    "Ensure meta titles and descriptions adhere to character limits for optimal SEO.",
+    "Support multilingual content for primary and secondary languages."
+  ],
+  "fields_required": [
+    "product_id",
+    "meta_title",
+    "meta_description",
+    "keywords",
+    "alt_text"
+  ]
+}

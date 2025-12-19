@@ -1,0 +1,16 @@
+{
+  "inputs": ["state/products.json", "state/finance.json", "state/shopify_snapshot.json"],
+  "outputs": ["state/finance.json"],
+  "rules": [
+    "Calculate recommended price based on cost, competitor price, and target margin.",
+    "Identify products that should be discounted or increased to meet financial goals.",
+    "Ensure pricing strategies adhere to the minimum margin thresholds set in the configuration."
+  ],
+  "fields_required": [
+    "product_id",
+    "recommended_price",
+    "cost",
+    "current_price",
+    "margin_percent"
+  ]
+}

@@ -6,9 +6,8 @@ try:
     from integrations.telegram.notify import send_telegram
 except ModuleNotFoundError as e:
     raise ModuleNotFoundError(
-        "No se pudo importar el paquete 'integrations'. Asegúrate de que el directorio 'integrations' existe en la raíz del repositorio y que PYTHONPATH incluye el directorio del repo. En GitHub Actions, establece PYTHONPATH: ${{ github.workspace }}."
+        "No se pudo importar el paquete 'integrations'. Asegúrate de que el directorio 'integrations' existe en la raíz del repositorio y que PYTHONPATH incluye dicha ruta."
     ) from e
-
 
 STATE_DIR = "state"
 SNAPSHOT_FILE = os.path.join(STATE_DIR, "shopify_snapshot.json")

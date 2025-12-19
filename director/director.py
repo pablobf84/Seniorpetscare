@@ -68,7 +68,7 @@ def main() -> None:
     actions = propose_actions(snapshot, max_actions=max_actions)
     save_actions(actions, approved=False)
     timestamp = datetime.utcnow().isoformat() + "Z"
-    summary = (
+
         f"🧐 <b>GPT Director</b> ({timestamp})\n"
         f"📦 Productos en snapshot: <b>{products_count}</b>\n"
         f"🛠️ Acciones propuestas: <b>{len(actions)}</b>\n"

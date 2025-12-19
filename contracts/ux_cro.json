@@ -1,0 +1,15 @@
+{
+  "inputs": ["state/products.json", "state/ux.json"],
+  "outputs": ["state/ux.json"],
+  "rules": [
+    "Recommend layouts and components optimized for mobile-first experience.",
+    "Suggest trust elements and persuasive design patterns to improve conversion rates.",
+    "Ensure consistent navigation and grouping by problem category."
+  ],
+  "fields_required": [
+    "page",
+    "component",
+    "recommendation",
+    "priority_level"
+  ]
+}

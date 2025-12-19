@@ -1,0 +1,28 @@
+name: Shopify Snapshot
+
+on:
+  schedule:
+    # Runs every four hours at minute 0
+    - cron: "0 */4 * * *"
+  workflow_dispatch:
+
+jobs:
+  snapshot:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Pull snapshot
+        env:
+          SHOPIFY_STORE: ${{ secrets.SHOPIFY_STORE }}
+          SHOPIFY_ADMIN_TOKEN: ${{ secrets.SHOPIFY_ADMIN_TOKEN }}
+          SHOPIFY_API_VERSION: ${{ secrets.SHOPIFY_API_VERSION }}
+        run: python integrations/shopify/pull_snapshot.py
+      - name: Commit snapshot if changed
+        run: |
+          git config user.name "gpt-director-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add state/shopify_snapshot.json
+          git diff --staged --quiet || (git commit -m "Update shopify snapshot" && git push)

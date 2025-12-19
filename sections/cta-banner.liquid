@@ -1,0 +1,24 @@
+<section class="spc-cta" aria-label="Llamada a la acción principal">
+  <div class="spc-container spc-cta__wrap">
+    <div class="spc-cta__text">
+      <h2>{{ section.settings.heading | default: "Cuidado experto para tus mascotas senior" }}</h2>
+      <p>{{ section.settings.subheading | default: "Productos de confianza, entrega en 5–7 días" }}</p>
+    </div>
+    {% if section.settings.btn_text != blank and section.settings.btn_link != blank %}
+      <a class="spc-btn spc-btn--primary" href="{{ section.settings.btn_link }}">{{ section.settings.btn_text }}</a>
+    {% endif %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Banner CTA",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Título" },
+    { "type": "text", "id": "subheading", "label": "Subtítulo" },
+    { "type": "text", "id": "btn_text", "label": "Texto del botón", "default": "Ver productos" },
+    { "type": "url",  "id": "btn_link", "label": "Enlace del botón", "default": "/collections/all" }
+  ],
+  "presets": [{ "name": "Banner CTA minimal" }]
+}
+{% endschema %}

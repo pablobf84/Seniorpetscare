@@ -1,0 +1,54 @@
+{% comment %} Sección: Beneficios (4 columnas, minimal) {% endcomment %}
+<section class="spc-benefits" aria-label="Beneficios rápidos">
+  <div class="spc-container">
+    <ul class="spc-benefits__grid" role="list">
+      {% for block in section.blocks %}
+        <li class="spc-benefit">
+          {% if block.settings.icon != blank %}
+            <img class="spc-benefit__icon" src="{{ block.settings.icon | image_url: width: 96 }}" alt="" loading="lazy" width="64" height="64">
+          {% endif %}
+          {% if block.settings.title != blank %}
+            <h3 class="spc-benefit__title">{{ block.settings.title }}</h3>
+          {% endif %}
+          {% if block.settings.text != blank %}
+            <p class="spc-benefit__text">{{ block.settings.text }}</p>
+          {% endif %}
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Beneficios rápidos",
+  "tag": "section",
+  "class": "spc-benefits-section",
+  "settings": [
+    { "type": "range", "id": "gap", "label": "Espaciado entre columnas (px)", "min": 8, "max": 48, "step": 2, "default": 24 }
+  ],
+  "blocks": [
+    {
+      "type": "benefit",
+      "name": "Beneficio",
+      "settings": [
+        { "type": "image_picker", "id": "icon",  "label": "Icono (64x64)" },
+        { "type": "text", "id": "title", "label": "Título" },
+        { "type": "text", "id": "text",  "label": "Texto" }
+      ]
+    }
+  ],
+  "max_blocks": 4,
+  "presets": [
+    {
+      "name": "Beneficios rápidos (4)",
+      "blocks": [
+        { "type": "benefit", "settings": { "title": "Envío rápido 5–7 días", "text": "Seguimiento online" } },
+        { "type": "benefit", "settings": { "title": "Pago seguro", "text": "Tus datos protegidos" } },
+        { "type": "benefit", "settings": { "title": "Garantía 30 días", "text": "Devolución sencilla" } },
+        { "type": "benefit", "settings": { "title": "Atención personalizada", "text": "Expertos en mascotas senior" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

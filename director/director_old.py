@@ -48,7 +48,7 @@ def propose_actions(snapshot: dict, max_actions: int = 10) -> list:
 def save_actions(actions: list, approved: bool = False) -> None:
     os.makedirs(os.path.dirname(ACTIONS_FILE), exist_ok=True)
     with open(ACTIONS_FILE, "w", encoding="utf-8") as f:
-        json.dump({
+        3json.dump({
             "generated_at_utc": datetime.utcnow().isoformat() + "Z",
             "actions": actions,
             "approved": approved,
@@ -62,9 +62,9 @@ def append_report(summary: str) -> None:
 
 
 def main() -> None:
-    snapshot = load_snapshot()
+    snapshot = load_snapshot() 
     products_count = len(snapshot.get("products", []))
-    actions = propose_actions(snapshot, max_actions=int(os.environ.get("DIRECTOR_MAX_ACTIONS", 10)))
+    
     save_actions(actions, approved=False)
     timestamp = datetime.utcnow().isoformat() + "Z"
     # Create a human-readable summary for the report and Telegram

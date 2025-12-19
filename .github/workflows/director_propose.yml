@@ -19,7 +19,12 @@ jobs:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
           DIRECTOR_MAX_ACTIONS: ${{ secrets.DIRECTOR_MAX_ACTIONS }}
-        run: python director/director.py
+                 SHOPIFY_STORE: ${{ secrets.SHOPIFY_STORE }}
+    SHOPIFY_ADIN_TOKEN: ${{ secrets.SHOPIFY_ADMIN_TOKEN }}
+    SHOPIFY_APVERSION: ${{ secrets.SHOPIFY_API_VERSION }}
+    DIRECTOR_SAFE_MODE: ${{ secrets.DIRECTOR_SAFE_MODE }}
+              PYTHONPATH: ${{ github.workspace }}
+        run: ppython -m director.director
       - name: Commit decisions if changed
         run: |
           git config user.name "gpt-director-bot"

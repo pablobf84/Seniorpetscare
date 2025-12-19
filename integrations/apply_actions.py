@@ -2,6 +2,7 @@ import os
 import json
 import urllib.request
 from typing import Dict, Any, List
+from integrations.design.apply_design import main as apply_design_main
 
 # This is a stub implementation for applying actions to Shopify.
 # It reads decisions/actions_pending.json and, if approved, iterates
@@ -66,7 +67,9 @@ def main() -> None:
         save_log("No actions to apply.")
         return
     apply_actions(actions)
-    save_log("Finished applying actions.")
+        apply_design_main()
+
+        save_log("Finished applying actions.")
 
 
 if __name__ == "__main__":

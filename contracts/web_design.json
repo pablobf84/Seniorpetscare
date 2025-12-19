@@ -1,0 +1,6 @@
+{
+  "inputs": ["state/ux.json", "state/products.json", "state/seo.json"],
+  "outputs": ["state/ux.json", "state/seo.json"],
+  "rules": "Improve web design across the store, including home pages, product pages, banners, hero images and navigation. Incorporate promotional messages and new offers when needed. Maintain brand aesthetics aligned with senior pet care, optimize for mobile and desktop conversion, ensure accessibility, and coordinate with SEO guidelines.",
+  "fields_required": ["component", "location", "action", "description", "priority_level"]
+}

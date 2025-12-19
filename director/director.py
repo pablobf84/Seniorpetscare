@@ -1,54 +1,77 @@
 import json
-from datetime import date
+import os
+from datetime import datetime
+from integrations.telegram.notify import send_telegram
 
-STATE_DIR = 'state'
-DECISIONS_FILE = 'decisions/daily_reports.md'
+STATE_DIR = "state"
+SNAPSHOT_FILE = os.path.join(STATE_DIR, "shopify_snapshot.json")
+ACTIONS_FILE = os.path.join("decisions", "actions_pending.json")
+REPORT_FILE = os.path.join("decisions", "daily_reports.md")
 
-# Load state files
-def load_state(filename):
-    with open(f'{STATE_DIR}/{filename}', 'r', encoding='utf-8') as f:
-        return json.load(f)
 
-# Evaluate products: placeholder logic
-def evaluate_products(products_state):
+def load_snapshot() -> dict:
+    if os.path.exists(SNAPSHOT_FILE):
+        with open(SNAPSHOT_FILE, "r", encoding="utf-8") as f:
+            return json.load(f)
+    return {"products": []}
+
+
+def propose_actions(snapshot: dict, max_actions: int = 10) -> list:
     actions = []
-    for product in products_state.get('products', []):
-        # Example rule: if sales < threshold and margin < threshold -> discard
-        if product.get('sales', 0) < 10 and product.get('margin', 0) < 0.05:
-            actions.append({'product_id': product['id'], 'action': 'discard', 'reason': 'low performance'})
-        # Additional rules can go here
+    products = snapshot.get("products", [])
+    for product in products:
+        for variant in product.get("variants", {}).get("nodes", []):
+            if not variant.get("sku"):
+                # Construct a simple SKU using the last 6 characters of the variant ID.
+                # Use single quotes inside the f-string to avoid conflicts with outer quotes.
+                new_sku = f"SKU-{variant['id'][-6:]}"[:63]
+                actions.append({
+                    "type": "FIX_SKU",
+                    "product_id": product["id"],
+                    "variant_id": variant["id"],
+                    "new_sku": new_sku,
+                    "reason": "Variant without SKU"
+                })
+            if len(actions) >= max_actions:
+                break
+        if len(actions) >= max_actions:
+            break
     return actions
 
-# Generate report
-def generate_report(actions_by_department):
-    lines = []
-    lines.append(f"## Report for {date.today().isoformat()}\n")
-    for dept, actions in actions_by_department.items():
-        lines.append(f"### {dept}\n")
-        if not actions:
-            lines.append("No actions taken.\n")
-        else:
-            for action in actions:
-                lines.append(f"- {action}\n")
-        lines.append("\n")
-    return "\n".join(lines)
 
-def main():
-    # Load all state files
-    products_state = load_state('products.json')
-    # Additional states: seo_state, ux_state, etc.
+def save_actions(actions: list, approved: bool = False) -> None:
+    os.makedirs(os.path.dirname(ACTIONS_FILE), exist_ok=True)
+    with open(ACTIONS_FILE, "w", encoding="utf-8") as f:
+        json.dump({
+            "generated_at_utc": datetime.utcnow().isoformat() + "Z",
+            "actions": actions,
+            "approved": approved,
+        }, f, ensure_ascii=False, indent=2)
 
-    # Evaluate decisions
-    product_actions = evaluate_products(products_state)
-    actions_by_department = {
-        'Product': product_actions,
-        # Add other departments here
-    }
 
-    # Write report
-    report = generate_report(actions_by_department)
-    with open(DECISIONS_FILE, 'a', encoding='utf-8') as f:
-        f.write(report)
+def append_report(summary: str) -> None:
+    os.makedirs(os.path.dirname(REPORT_FILE), exist_ok=True)
+    with open(REPORT_FILE, "a", encoding="utf-8") as f:
+        f.write(summary + "\n")
 
-if __name__ == '__main__':
+
+def main() -> None:
+    snapshot = load_snapshot()
+    products_count = len(snapshot.get("products", []))
+    actions = propose_actions(snapshot, max_actions=int(os.environ.get("DIRECTOR_MAX_ACTIONS", 10)))
+    save_actions(actions, approved=False)
+    timestamp = datetime.utcnow().isoformat() + "Z"
+    # Create a human-readable summary for the report and Telegram
+    summary = (
+        f"🧠 <b>GPT Director</b> ({timestamp})\n"
+        f"📦 Productos en snapshot: <b>{products_count}</b>\n"
+        f"🛠️ Acciones propuestas: <b>{len(actions)}</b>\n"
+        f"🔒 Modo seguro: <b>NO se aplica nada sin aprobación</b>\n"
+        f"📄 Revisa: decisions/actions_pending.json"
+    )
+    append_report(summary)
+    send_telegram(summary)
+
+
+if __name__ == "__main__":
     main()

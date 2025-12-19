@@ -1,0 +1,16 @@
+{
+  "inputs": ["state/products.json", "state/logistics.json", "state/shopify_snapshot.json"],
+  "outputs": ["state/logistics.json"],
+  "rules": [
+    "Analyze stock levels and propose restocking or pausing based on demand and supplier availability.",
+    "Recommend optimal warehouse locations and shipping methods based on customer regions.",
+    "Respect weight and size limits to minimize shipping costs and avoid oversize products."
+  ],
+  "fields_required": [
+    "product_id",
+    "warehouse",
+    "stock_level",
+    "delivery_time",
+    "shipping_cost"
+  ]
+}

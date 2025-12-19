@@ -1,0 +1,18 @@
+{
+  "inputs": ["state/shopify_snapshot.json", "state/products.json"],
+  "outputs": ["state/products.json"],
+  "rules": [
+    "Identify new potential products based on trends and propose them.",
+    "Remove products that are outdated, underperforming or fail to meet margin requirements.",
+    "Recommend modifications to pricing based on competitive analysis and margin targets."
+  ],
+  "fields_required": [
+    "product_id",
+    "title",
+    "description",
+    "price",
+    "cost",
+    "tags",
+    "status"
+  ]
+}

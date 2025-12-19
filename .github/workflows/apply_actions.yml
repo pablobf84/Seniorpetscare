@@ -1,0 +1,25 @@
+name: Apply Approved Actions
+
+on:
+  workflow_dispatch:
+
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Apply Actions
+        env:
+          SHOPIFY_STORE: ${{ secrets.SHOPIFY_STORE }}
+          SHOPIFY_ADMIN_TOKEN: ${{ secrets.SHOPIFY_ADMIN_TOKEN }}
+          SHOPIFY_API_VERSION: ${{ secrets.SHOPIFY_API_VERSION }}
+        run: python integrations/shopify/apply_actions.py
+      - name: Commit apply log
+        run: |
+          git config user.name "gpt-director-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add decisions/apply_log.md
+          git diff --staged --quiet || (git commit -m "Director: applied actions" && git push)

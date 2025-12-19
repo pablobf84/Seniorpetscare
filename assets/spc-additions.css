@@ -1,0 +1,31 @@
+/* Contenedor y espaciado base */
+.spc-container{max-width:1200px;margin-inline:auto;padding:0 16px}
+
+/* Grid: beneficios */
+.spc-benefits__grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:var(--spc-gap,24px);
+}
+@media(min-width:768px){ .spc-benefits__grid{ grid-template-columns:repeat(4,1fr);} }
+.spc-benefit{text-align:center}
+.spc-benefit__icon{width:64px;height:64px;border-radius:50%;object-fit:cover;margin-bottom:8px}
+.spc-benefit__title{font-weight:600;margin:.25rem 0}
+.spc-benefit__text{color:#4A4A4A;font-size:.95rem}
+
+/* CTA banner */
+.spc-cta{background:#F7F9F8;padding:32px 0}
+.spc-cta__wrap{display:flex;gap:16px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.spc-btn{display:inline-block;padding:.85rem 1.25rem;border-radius:999px;text-decoration:none}
+.spc-btn--primary{background:#2E7D32;color:#fff}
+.spc-btn--primary:hover{background:#1B5E20}
+
+/* Imágenes redondeadas y espacios entre cards */
+.card, .product-card{border-radius:16px; overflow:hidden}
+.card__media img, .product-card img{border-radius:16px}
+.grid, .grid--products{gap:24px}
+
+/* Responsivo: colapsar columnas donde sea necesario */
+@media(max-width:640px){
+  .spc-cta__wrap{flex-direction:column;align-items:flex-start}
+}

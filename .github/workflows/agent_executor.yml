@@ -1,0 +1,51 @@
+name: Agent Executor
+
+on:
+  # Manual trigger via the Actions tab
+  workflow_dispatch:
+
+jobs:
+  agent-executor:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Apply patch for director and integrations
+        run: |
+          # Ensure Git user is set for commits
+          git config user.name "gpt-director-bot"
+          git config user.email "actions@users.noreply.github.com"
+
+          # Apply the patch if it exists
+          if [ -f fix_director_env_and_init.patch ]; then
+            git apply fix_director_env_and_init.patch || echo "Patch already applied or cannot be applied"
+          else
+            echo "Patch file fix_director_env_and_init.patch not found" && exit 1
+          fi
+
+          # Stage changes and commit if there are modifications
+          git add .
+          if ! git diff --staged --quiet; then
+            git commit -m "Apply fix_director_env_and_init patch via Agent Executor"
+            git push
+          else
+            echo "No changes to commit"
+          fi
+
+      - name: Trigger Shopify Snapshot and GPT Director Propose workflows
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # Trigger the Shopify Snapshot workflow
+          gh workflow run "Shopify Snapshot"
+          # Trigger the GPT Director Propose workflow
+          gh workflow run "GPT Director Propose"
+
+      - name: Notify via Telegram of patch application
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: |
+          message="Parche fix_director_env_and_init aplicado y workflows desencadenados satisfactoriamente."
+          curl -s -X POST "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage" -d "chat_id=${TELEGRAM_CHAT_ID}" -d "text=${message}"

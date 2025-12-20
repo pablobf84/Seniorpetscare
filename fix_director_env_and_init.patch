@@ -1,35 +1,42 @@
-diff --git a/director/director.py b/director/director.py
-index abcdef1..1234567 100644
---- a/director/director.py
-+++ b/director/director.py
-@@ -1,6 +1,7 @@
- import os
- import json
+*** Begin Patch
+*** Add File: integrations/__init__.py
++"""
++Package marker for integrations.
++"""
++
++__all__ = []
+*** End Patch
+*** Begin Patch
+*** Add File: integrations/telegram/__init__.py
++"""
++Package marker for integrations.telegram.
++"""
++
++__all__ = []
+*** End Patch
+*** Begin Patch
+*** Add File: integrations/design/__init__.py
++"""
++Package marker for integrations.design.
++"""
++
++__all__ = []
+*** End Patch
+*** Begin Patch
+*** Update File: director/director.py
+@@
 -from datetime import import datetime
 +from datetime import datetime
-
- from integrations.shopify.snapshot import load_snapshot
- from integrations.decision.propose import propose_actions
 @@ def main() -> None:
-     snapshot = load_snapshot()
-     products_count = len(snapshot.get("products", []))
--    actions = propose_actions(snapshot, max_actions=int(os.environ.get("DIRECTOR_MAX_ACTIONS")))
-+    max_actions = int(os.environ.get("DIRECTOR_MAX_ACTIONS") or 10)
+-    actions = propose_actions(snapshot, max_actions=int(os.environ.get("DIRECTOR_MAX_ACTIONS", 10)))
++    # Obtain max actions from environment; default to 10 if empty or invalid
++    max_actions_env = os.environ.get("DIRECTOR_MAX_ACTIONS")
++    if max_actions_env:
++        try:
++            max_actions = int(max_actions_env)
++        except ValueError:
++            max_actions = 10
++    else:
++        max_actions = 10
 +    actions = propose_actions(snapshot, max_actions=max_actions)
-     save_actions(actions, approved=False)
-     timestamp = datetime.utcnow().isoformat() + "Z"
-     summary = (
-@@ def main() -> None:
-     append_report(summary)
-     send_telegram(summary)
--    send_telegram(summary)
-
-diff --git a/integrations/__init__.py b/integrations/__init__.py
-new file mode 100644
-index 0000000..e69de29
-diff --git a/integrations/telegram/__init__.py b/integrations/telegram/__init__.py
-new file mode 100644
-index 0000000..e69de29
-diff --git a/integrations/design/__init__.py b/integrations/design/__init__.py
-new file mode 100644
-index 0000000..e69de29
+*** End Patch

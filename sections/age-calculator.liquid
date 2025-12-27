@@ -1,0 +1,25 @@
+{% comment %}
+  Calculadora de edad canina senior
+{% endcomment %}
+<section class="age-calculator page-width" aria-labelledby="age-heading">
+  <header class="section-header">
+    <h2 id="age-heading">Calculadora de edad canina</h2>
+    <p>Convierte años humanos a edad senior y descubre qué producto necesita.</p>
+  </header>
+  <form class="age-calculator__form" data-age-calculator>
+    <label for="dog-years">Edad de tu perro (años humanos)</label>
+    <input id="dog-years" name="dog-years" type="number" min="1" required aria-required="true">
+    <label for="dog-weight">Peso aproximado (kg)</label>
+    <input id="dog-weight" name="dog-weight" type="number" min="1" step="0.1" required aria-required="true">
+    <button type="submit" class="button button--primary" aria-label="Calcular edad senior">Calcular</button>
+  </form>
+  <div class="age-calculator__result" data-age-result aria-live="polite"></div>
+</section>
+
+{% schema %}
+{
+  "name": "Calculadora de edad canina",
+  "settings": [],
+  "presets": [{"name": "Calculadora de edad canina"}]
+}
+{% endschema %}

@@ -1,0 +1,37 @@
+{% comment %}
+  Últimos artículos del blog sobre cuidado de mascotas senior
+{% endcomment %}
+<section class="blog-featured page-width" aria-labelledby="blog-heading">
+  <header class="section-header">
+    <h2 id="blog-heading">Blog destacado</h2>
+    <p>Consejos rápidos para cuidar a tu compañero senior.</p>
+  </header>
+  <div class="blog-featured__grid">
+    {% assign blog_handle = section.settings.blog | default: 'news' %}
+    {% assign featured_blog = blogs[blog_handle] %}
+    {% if featured_blog != nil %}
+      {% for article in featured_blog.articles limit: 3 %}
+        <article class="blog-card">
+          <a href="{{ article.url }}">
+            {% if article.image %}
+              <img loading="lazy" src="{{ article.image | image_url: width: 600 }}" alt="{{ article.title }}">
+            {% endif %}
+            <h3>{{ article.title }}</h3>
+          </a>
+          <p>{{ article.excerpt | strip_html | truncate: 120 }}</p>
+          <span class="blog-card__meta">{{ article.published_at | date: "%d %b" }}</span>
+        </article>
+      {% endfor %}
+    {% else %}
+      <p>Configura tu blog para mostrar artículos aquí.</p>
+    {% endif %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Blog destacado GoldenPaenior",
+  "settings": [{"type": "blog", "id": "blog", "label": "Blog"}],
+  "presets": [{"name": "Blog destacado GoldenPaenior"}]
+}
+{% endschema %}

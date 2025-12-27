@@ -1,0 +1,51 @@
+{% comment %}
+  Grid de problemas comunes con enlaces a colecciones filtradas
+{% endcomment %}
+<section class="problems-grid page-width" aria-labelledby="problemas-heading">
+  <header class="section-header">
+    <h2 id="problemas-heading">Problemas comunes en mascotas senior</h2>
+    <p>Selecciona el reto que tienes y te mostraremos soluciones específicas.</p>
+  </header>
+  <div class="problems-grid__items">
+    {% for block in section.blocks %}
+      <a class="problems-grid__item" href="{{ block.settings.link }}" aria-label="{{ block.settings.title }}">
+        <div class="problems-grid__icon" aria-hidden="true">{{ block.settings.emoji }}</div>
+        <div>
+          <p class="problems-grid__title">{{ block.settings.title }}</p>
+          <p class="problems-grid__subtitle">{{ block.settings.subtitle }}</p>
+        </div>
+      </a>
+    {% endfor %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Problemas comunes senior",
+  "blocks": [
+    {
+      "type": "item",
+      "name": "Problema",
+      "settings": [
+        {"type": "text", "id": "emoji", "label": "Icono", "default": "🐶"},
+        {"type": "text", "id": "title", "label": "Título", "default": "No sube al sofá"},
+        {"type": "text", "id": "subtitle", "label": "Descripción", "default": "Asistencia diaria"},
+        {"type": "url", "id": "link", "label": "Enlace a colección"}
+      ]
+    }
+  ],
+  "max_blocks": 6,
+  "presets": [
+    {
+      "name": "Problemas comunes", "blocks": [
+        {"type": "item", "settings": {"emoji": "🛋️", "title": "No sube al sofá", "subtitle": "Rampas & escalones", "link": "/collections/rampas"}},
+        {"type": "item", "settings": {"emoji": "🚶", "title": "No puede caminar", "subtitle": "Arneses y ruedas", "link": "/collections/movilidad"}},
+        {"type": "item", "settings": {"emoji": "💧", "title": "Incontinencia", "subtitle": "Empapadores", "link": "/collections/higiene"}},
+        {"type": "item", "settings": {"emoji": "😟", "title": "Ansiedad", "subtitle": "Calmantes naturales", "link": "/collections/ansiedad"}},
+        {"type": "item", "settings": {"emoji": "🦴", "title": "Dolores articulares", "subtitle": "Suplementos", "link": "/collections/suplementos"}},
+        {"type": "item", "settings": {"emoji": "👁️", "title": "Pérdida de visión", "subtitle": "Luz y guías", "link": "/collections/vision"}}
+      ]
+    }
+  ]
+}
+{% endschema %}

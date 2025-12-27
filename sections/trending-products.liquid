@@ -1,0 +1,41 @@
+{% comment %}
+  Muestra productos en tendencia con badge de envío 5-7 días
+{% endcomment %}
+<section id="productos" class="trending-products page-width" aria-labelledby="trending-heading">
+  <header class="section-header">
+    <h2 id="trending-heading">Productos con stock confirmado</h2>
+    <p>Seleccionamos los más vendidos y listos para enviar.</p>
+  </header>
+  <div class="trending-products__grid">
+    {% assign collection_handle = section.settings.collection | default: 'all' %}
+    {% assign featured_collection = collections[collection_handle] %}
+    {% if featured_collection != nil and featured_collection.products_count > 0 %}
+      {% for product in featured_collection.products limit: 6 %}
+        <article class="product-card" aria-label="{{ product.title }}">
+          <div class="product-card__media">
+            <img loading="lazy" src="{{ product.featured_media | image_url: width: 500 }}" alt="Rampa para perro senior {{ product.title }} - seniorpetscare">
+            <span class="badge badge--shipping">Envío 5-7 días</span>
+            {% if product.total_inventory < 20 %}<span class="badge badge--low">Stock bajo</span>{% endif %}
+          </div>
+          <div class="product-card__info">
+            <h3><a href="{{ product.url }}">{{ product.title }}</a></h3>
+            <p class="price">{{ product.price | money_with_currency }}</p>
+            <button class="button button--secondary" type="button" data-quick-add="{{ product.selected_or_first_available_variant.id }}" aria-label="Añadir {{ product.title }} al carrito">Añadir al carrito</button>
+          </div>
+        </article>
+      {% endfor %}
+    {% else %}
+      <p>No hay productos aún, agrega una colección en la configuración.</p>
+    {% endif %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Productos con stock confirmado",
+  "settings": [
+    {"type": "collection", "id": "collection", "label": "Colección fuente"}
+  ],
+  "presets": [{"name": "Productos con stock confirmado"}]
+}
+{% endschema %}

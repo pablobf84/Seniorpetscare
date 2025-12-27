@@ -1,0 +1,59 @@
+{% comment %}Integraciones de tracking y apps{% endcomment %}
+<!-- Google Analytics 4 -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXX"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);} gtag('js', new Date());
+  gtag('config', 'G-XXXXXXX', { 'currency': '{{ cart.currency.iso_code }}', 'send_page_view': true });
+</script>
+<!-- Facebook Pixel -->
+<script>
+  !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+  n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window, document,'script','https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init', '000000000000000');
+  fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=000000000000000&ev=PageView&noscript=1"/></noscript>
+<!-- TikTok Pixel -->
+<script>
+  !function (w, d, t) { w.TiktokAnalyticsObject=t;var tt=w[t]=w[t]||[];tt.methods=['page','track','identify'];
+  tt.factory=function(method){return function(){tt.push([method].concat(Array.prototype.slice.call(arguments,0)))}}
+  for (var i=0;i<tt.methods.length;i++){var key=tt.methods[i];tt[key]=tt.factory(key)}
+  tt.load=function(f){var e=d.createElement('script');e.type='text/javascript';e.async=!0;e.src=f;
+  var n=d.getElementsByTagName('script')[0];n.parentNode.insertBefore(e,n)};tt.load('https://analytics.tiktok.com/i18n/pixel.js');
+  tt.page();}(window, document, 'ttq'); ttq.track('PageView');
+</script>
+<!-- DSers sync -->
+<script>
+  setInterval(function(){
+    fetch('https://api.dsers.com/sync', {method:'POST', body: JSON.stringify({shop: '{{ shop.domain }}'})});
+  }, 14400000);
+</script>
+<!-- Spocket badge -->
+<script>
+  document.addEventListener('DOMContentLoaded', function(){
+    document.querySelectorAll('.product-card__badges').forEach(function(badgeContainer){
+      const badge = document.createElement('span');
+      badge.className = 'badge badge--shipping';
+      badge.textContent = 'Envío desde Europa';
+      badgeContainer.appendChild(badge);
+    });
+  });
+</script>
+<!-- Loox widget -->
+<div id="looxReviewsWidget" data-loox-aggregate></div>
+<!-- Klaviyo exit intent -->
+<script async src="https://static.klaviyo.com/onsite/js/klaviyo.js?company_id=XXXX"></script>
+<script>
+  document.addEventListener('mouseleave', function(){
+    if(!sessionStorage.getItem('kl_popup_shown')){
+      sessionStorage.setItem('kl_popup_shown','1');
+      window._klOnsite = window._klOnsite || [];
+      window._klOnsite.push(['openForm', 'POPUP_EXIT_INTENT']);
+    }
+  });
+</script>
+<!-- Tidio chatbot -->
+<script src="//code.tidio.co/xxxxxxxxxxxx.js" async></script>

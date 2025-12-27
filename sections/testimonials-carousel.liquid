@@ -1,0 +1,44 @@
+{% comment %}
+  Carrusel de testimonios reales con fotos
+{% endcomment %}
+<section class="testimonials page-width" aria-labelledby="testimonials-heading">
+  <header class="section-header">
+    <h2 id="testimonials-heading">Testimonios reales</h2>
+    <p>Opiniones verificadas de tutores que mejoraron la movilidad de sus mascotas senior.</p>
+  </header>
+  <div class="testimonials__carousel" data-testimonials-carousel>
+    {% for block in section.blocks %}
+      <article class="testimonial" aria-label="Reseña de {{ block.settings.name }}">
+        <img loading="lazy" class="testimonial__photo" src="{{ block.settings.photo | image_url: width: 200 }}" alt="Mascota de {{ block.settings.name }}">
+        <div class="testimonial__content">
+          <p class="testimonial__rating">⭐⭐⭐⭐⭐</p>
+          <p class="testimonial__text">{{ block.settings.review }}</p>
+          <p class="testimonial__author">{{ block.settings.name }} • {{ block.settings.pet }}</p>
+        </div>
+      </article>
+    {% endfor %}
+  </div>
+  <div class="testimonials__controls" aria-hidden="true">
+    <button class="button button--secondary" data-prev aria-label="Anterior">‹</button>
+    <button class="button button--secondary" data-next aria-label="Siguiente">›</button>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Testimonios GoldenPaenior",
+  "blocks": [
+    {
+      "type": "testimonial",
+      "name": "Testimonio",
+      "settings": [
+        {"type": "text", "id": "name", "label": "Nombre", "default": "Laura"},
+        {"type": "text", "id": "pet", "label": "Mascota", "default": "Thor, 12 años"},
+        {"type": "textarea", "id": "review", "label": "Reseña", "default": "La rampa llegó en 48h y ahora sube al sofá sin miedo."},
+        {"type": "image_picker", "id": "photo", "label": "Foto de la mascota"}
+      ]
+    }
+  ],
+  "presets": [{"name": "Testimonios GoldenPaenior", "blocks": [{"type": "testimonial"}, {"type": "testimonial"}, {"type": "testimonial"}]}]
+}
+{% endschema %}

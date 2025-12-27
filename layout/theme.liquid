@@ -23,10 +23,13 @@
     >
 
     {%- render 'meta-tags' -%}
+    {%- render 'schema-markup' -%}
     {%- render 'fonts' -%}
     {%- render 'scripts' -%}
     {%- render 'theme-styles-variables' -%}
     {%- render 'color-schemes' -%}
+
+    {{ 'theme.css' | asset_url | stylesheet_tag }}
 
     {% if request.design_mode %}
       {%- render 'theme-editor' -%}
@@ -35,6 +38,8 @@
  
  {{ 'spc-additions.css' | asset_url | stylesheet_tag }}
 {{ content_for_header }}
+ {{ 'theme.js' | asset_url | script_tag }}
+ {% render 'app-integrations' %}
   </head>
 
   <body class="page-width-{{ settings.page_width }} card-hover-effect-{{ settings.card_hover_effect }}">

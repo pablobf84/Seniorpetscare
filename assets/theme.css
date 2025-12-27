@@ -1,0 +1,56 @@
+/* Estilos personalizados GoldenPaeniorpetscare */
+:root {
+  --golden: #e5c07b;
+  --night: #0f172a;
+  --soft: #f7f5ef;
+}
+body {
+  background: var(--soft);
+  color: #1f2937;
+}
+.hero-video {position: relative; min-height: 70vh; display: grid; align-items: center; overflow: hidden; color: #fff;}
+.hero-video__background {position:absolute; inset:0;}
+.hero-video__media {width:100%; height:100%; object-fit:cover;}
+.hero-video__overlay {position:absolute; inset:0; background:linear-gradient(90deg,rgba(15,23,42,.8),rgba(15,23,42,.3));}
+.hero-video__content {position:relative; max-width: 620px; padding: 4rem 1.5rem;}
+.hero-video__badges {display:flex; gap:1rem; padding:0; margin-top:1rem; list-style:none; flex-wrap:wrap;}
+.section-header {margin-bottom:1.5rem; text-align:left;}
+.problems-grid__items {display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:1rem;}
+.problems-grid__item {background:#fff; border-radius:14px; padding:1rem; display:flex; gap:.75rem; align-items:center; text-decoration:none; color:inherit; box-shadow:0 10px 30px rgba(0,0,0,.06);}
+.problems-grid__icon {font-size:1.8rem;}
+.trending-products__grid,.blog-featured__grid {display:grid; gap:1.25rem; grid-template-columns:repeat(auto-fit,minmax(240px,1fr));}
+.product-card {background:#fff; border-radius:16px; padding:1rem; box-shadow:0 10px 30px rgba(0,0,0,.05); display:flex; flex-direction:column; gap:.75rem;}
+.product-card__media img {width:100%; border-radius:12px;}
+.badge {display:inline-block; padding:0.35rem 0.65rem; border-radius:999px; font-size:0.8rem;}
+.badge--shipping {background:#d1fae5; color:#065f46;}
+.badge--low {background:#fef3c7; color:#92400e;}
+.badge--best {background:#c7d2fe; color:#312e81;}
+.badge--new {background:#e0f2fe; color:#075985;}
+.badge--savings {background:var(--golden); color:#0f172a;}
+.age-calculator__form {display:grid; gap:.75rem; max-width:420px;}
+.age-calculator__result {margin-top:1rem; font-weight:700;}
+.testimonials__carousel {display:flex; gap:1rem; overflow:auto; scroll-snap-type:x mandatory;}
+.testimonial {min-width:260px; background:#fff; padding:1rem; border-radius:14px; box-shadow:0 10px 25px rgba(0,0,0,.04); scroll-snap-align:start; display:grid; gap:.75rem;}
+.testimonial__photo {width:80px; height:80px; object-fit:cover; border-radius:50%;}
+.blog-card {background:#fff; border-radius:12px; padding:1rem; box-shadow:0 10px 25px rgba(0,0,0,.04);}
+.blog-card img {border-radius:10px; margin-bottom:.75rem; width:100%;}
+.collection-template__body {display:grid; grid-template-columns:260px 1fr; gap:1.5rem;}
+.collection-template__filters {background:#fff; padding:1rem; border-radius:12px; box-shadow:0 6px 16px rgba(0,0,0,.05);}
+.collection-template__grid .grid {display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:1rem;}
+.filter__title {font-weight:700; margin-bottom:.5rem;}
+.product-template__grid {display:grid; grid-template-columns:1.1fr 0.9fr; gap:2rem;}
+.product-template__media {display:grid; gap:1rem;}
+.product-template__media img, .product-template__media video {border-radius:14px; width:100%;}
+.product-template__details {background:#fff; padding:1.5rem; border-radius:14px; box-shadow:0 12px 30px rgba(0,0,0,.05);}
+.product-form__addons label {display:block; margin-bottom:.5rem;}
+.bundle {background:#fef3c7; padding:1rem; border-radius:10px; margin:1rem 0;}
+.tabbed details {background:#f9fafb; border-radius:10px; padding:.75rem 1rem; margin-bottom:.5rem;}
+.sticky-bar {position:fixed; bottom:0; left:0; right:0; background:#0f172a; color:#fff; display:flex; justify-content:space-between; align-items:center; padding:.85rem 1.25rem; z-index:30;}
+.trust-badges {display:flex; gap:1rem; flex-wrap:wrap; margin:0.5rem 0 1rem;}
+@media(max-width: 900px){
+  .product-template__grid {grid-template-columns:1fr;}
+  .collection-template__body {grid-template-columns:1fr;}
+  .hero-video {min-height: 60vh;}
+  .sticky-bar {flex-direction:column; gap:.5rem;}
+  .collection-template__grid .grid {grid-template-columns:repeat(auto-fit,minmax(160px,1fr));}
+}

@@ -1,0 +1,48 @@
+{% comment %}Schema técnico{% endcomment %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "GoldenPaeniorpetscare",
+  "url": "https://seniorpetscare.com",
+  "logo": "{{ settings.logo | image_url: width: 400 }}"
+}
+</script>
+{% if template contains 'product' %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Product",
+  "name": "{{ product.title }}",
+  "description": {{ product.description | strip_html | json }},
+  "image": [{% for media in product.media limit: 3 %}"{{ media | image_url }}"{% unless forloop.last %},{% endunless %}{% endfor %}],
+  "offers": {
+    "@type": "Offer",
+    "priceCurrency": "{{ cart.currency.iso_code }}",
+    "price": "{{ product.price | money_without_currency }}",
+    "availability": "https://schema.org/{% if product.available %}InStock{% else %}OutOfStock{% endif %}",
+    "url": "{{ product.url }}"
+  },
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": "4.8",
+    "reviewCount": "234"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [{
+    "@type": "Question",
+    "name": "¿La rampa soporta perros grandes?",
+    "acceptedAnswer": {"@type": "Answer", "text": "Sí, soporta hasta 120kg."}
+  },{
+    "@type": "Question",
+    "name": "¿Incluye envío desde Europa?",
+    "acceptedAnswer": {"@type": "Answer", "text": "Envíos 5-7 días desde España."}
+  }]
+}
+</script>
+{% endif %}

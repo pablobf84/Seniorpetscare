@@ -1,0 +1,102 @@
+{% comment %}
+  Plantilla de colección con filtros laterales y contadores de stock
+{% endcomment %}
+<section class="collection-template page-width" aria-label="Colección">
+  <header class="collection-template__header">
+    <div>
+      <h1>{{ collection.title }}</h1>
+      <p>{{ collection.description | strip_html }}</p>
+    </div>
+    <div class="collection-template__topbar">
+      <div class="stock-counter" role="status" aria-live="polite">{{ section.settings.stock_label | replace: '%count%', section.settings.stock_number }}</div>
+      <div class="sort-by">
+        <label for="SortBy">Ordenar</label>
+        <select id="SortBy" name="sort_by" aria-label="Ordenar productos" onchange="location = this.value;">
+          {% assign sort_options = 'manual:Relevancia,price-ascending:Precio,created-descending:Nuevos,best-selling:Más vendidos' | split: ',' %}
+          {% for option in sort_options %}
+            {% assign parts = option | split: ':' %}
+            {% assign value = parts[0] %}
+            {% assign label = parts[1] %}
+            <option value="{{ collection.url | append: '?sort_by=' | append: value }}" {% if collection.sort_by == value %}selected{% endif %}>{{ label }}</option>
+          {% endfor %}
+        </select>
+      </div>
+    </div>
+  </header>
+  <div class="collection-template__body">
+    <aside class="collection-template__filters" aria-label="Filtros de colección">
+      {% for filter in collection.filters %}
+        <div class="filter" data-filter-type="{{ filter.label }}">
+          <p class="filter__title">{{ filter.label }}</p>
+          {% case filter.type %}
+            {% when 'list' %}
+              <ul>
+                {% for filter_value in filter.values %}
+                  <li>
+                    <label>
+                      <input type="checkbox" {% if filter_value.active %}checked{% endif %} data-filter-input
+                        data-url="{{ filter_value.url }}" aria-label="{{ filter_value.label }}">
+                      <span>{{ filter_value.label }}{% if filter_value.count %} ({{ filter_value.count }}){% endif %}</span>
+                    </label>
+                  </li>
+                {% endfor %}
+              </ul>
+            {% when 'price_range' %}
+              <div class="filter__range">
+                <label for="price-min">Mín</label>
+                <input id="price-min" name="filter.v.price.gte" type="number" value="{{ filter.min_value.value | default: 0 }}" min="0">
+                <label for="price-max">Máx</label>
+                <input id="price-max" name="filter.v.price.lte" type="number" value="{{ filter.max_value.value | default: filter.range_max }}" min="0">
+                <button type="button" class="button button--secondary" data-price-submit data-range-url="{{ filter.url_to_add | escape }}">Aplicar</button>
+              </div>
+          {% endcase %}
+        </div>
+      {% endfor %}
+      <div class="filter filter--custom">
+        <p class="filter__title">Envío desde</p>
+        <label><input type="checkbox" data-custom-tag="EU" aria-label="Envío desde EU"> Europa</label>
+        <label><input type="checkbox" data-custom-tag="USA" aria-label="Envío desde USA"> USA</label>
+      </div>
+      <div class="filter filter--custom">
+        <p class="filter__title">Peso soportado</p>
+        <label><input type="checkbox" data-custom-tag="120kg" aria-label="Soporta 120kg"> Hasta 120kg</label>
+        <label><input type="checkbox" data-custom-tag="80kg" aria-label="Soporta 80kg"> Hasta 80kg</label>
+      </div>
+    </aside>
+    <div class="collection-template__grid">
+      {% paginate collection.products by 12 %}
+        <div class="grid grid--3-col">
+          {% for product in collection.products %}
+            <article class="product-card" aria-label="{{ product.title }}">
+              <a href="{{ product.url }}" class="product-card__link">
+                {% if product.featured_media %}
+                  <img loading="lazy" src="{{ product.featured_media | image_url: width: 600 }}" alt="Rampa para perro senior {{ product.title }} - seniorpetscare">
+                {% endif %}
+                <div class="product-card__badges">
+                  {% if product.total_inventory < 20 %}<span class="badge badge--low">Stock bajo</span>{% endif %}
+                  {% if product.tags contains 'bestseller' %}<span class="badge badge--best">Más vendido</span>{% endif %}
+                  {% if product.tags contains 'nuevo' %}<span class="badge badge--new">Nuevo</span>{% endif %}
+                </div>
+                <h3>{{ product.title }}</h3>
+                <p class="price">{{ product.price | money_with_currency }}</p>
+              </a>
+              <button class="button button--secondary" type="button" data-quick-add="{{ product.selected_or_first_available_variant.id }}" aria-label="Comprar {{ product.title }}">Añadir al carrito</button>
+            </article>
+          {% endfor %}
+        </div>
+        {% render 'pagination', paginate: paginate %}
+      {% endpaginate %}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Colección avanzada GoldenPaenior",
+  "settings": [
+    {"type": "text", "id": "stock_label", "label": "Etiqueta stock", "default": "%count% rampas disponibles"},
+    {"type": "text", "id": "stock_number", "label": "Número para contador", "default": "156"}
+  ],
+  "presets": [{"name": "Colección avanzada GoldenPaenior"}]
+}
+{% endschema %}

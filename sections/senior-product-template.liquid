@@ -1,0 +1,92 @@
+{% comment %}
+  Plantilla de producto optimizada para mascotas senior
+{% endcomment %}
+<section class="product-template page-width" itemscope itemtype="https://schema.org/Product">
+  <meta itemprop="name" content="{{ product.title }}">
+  <div class="product-template__grid">
+    <div class="product-template__media" aria-label="Galería de producto">
+      {% for media in product.media limit: 9 %}
+        <div class="media-item">
+          {% if media.media_type == 'video' %}
+            {{ media | video_tag: controls: true, image_size: '800x' }}
+          {% else %}
+            <img loading="lazy" src="{{ media | image_url: width: 900 }}" alt="Rampa para perro senior {{ product.title }} - seniorpetscare">
+          {% endif %}
+        </div>
+      {% endfor %}
+    </div>
+    <div class="product-template__details">
+      <h1 class="product-title">Rampa Ortopédica para Perros Senior - Soporta 120kg - Envío desde España</h1>
+      <p class="product-subtitle">Pensada para articulaciones sensibles y superficies antideslizantes.</p>
+      <div class="product-price" aria-live="polite">
+        <span class="price">€89,00</span>
+        <span class="badge badge--savings">Ahorra €30 vs veterinarios</span>
+      </div>
+      <div class="trust-badges">
+        <span>↩️ Devolución 30 días</span>
+        <span>🚚 Envío 5-7 días</span>
+        <span>⭐ 4.8/5 (234 reviews)</span>
+      </div>
+      {% form 'product', product, class: 'product-form' %}
+        {% render 'product-variant-picker', product: product %}
+        <div class="product-form__addons">
+          <label><input type="checkbox" name="properties[Regalo]" value="Envoltorio + Tarjeta (+€5)" data-addon-price="5"> ¿Es para regalo? +€5</label>
+          <label><input type="checkbox" name="properties[Seguro]" value="Seguro de envío (+€2.99)" data-addon-price="2.99"> Seguro de envío +€2.99</label>
+          <label><input type="checkbox" name="properties[Kit Completo Senior]" value="Sí" data-addon-price="0" data-bundle> Incluir Kit Completo Senior (Rampa + Arnés + Suplementos) -15%</label>
+        </div>
+        <div class="bundle" aria-label="Bundle recomendado">
+          <p>Kit Completo Senior</p>
+          <ul>
+            <li>Rampa ortopédica</li>
+            <li>Arnés de soporte</li>
+            <li>Suplementos de glucosamina</li>
+          </ul>
+          <p class="bundle__note">Marca la casilla para aplicar 15% de descuento automático en el carrito.</p>
+        </div>
+        <button type="submit" class="button button--primary" aria-label="Añadir producto al carrito">Comprar ahora</button>
+      {% endform %}
+      <div class="tabbed">
+        <details open>
+          <summary>Beneficios</summary>
+          <ul>
+            <li>Superficie antideslizante y ángulo regulable.</li>
+            <li>Soporta hasta 120 kg, ideal para razas grandes.</li>
+            <li>Entrega desde España con IVA incluido.</li>
+          </ul>
+        </details>
+        <details>
+          <summary>Especificaciones</summary>
+          <p>Aluminio aeronáutico, peso 7kg, plegable, 120cm largo.</p>
+        </details>
+        <details>
+          <summary>Guía de tallas</summary>
+          <p>Uso recomendado para perros de 10kg a 120kg. Consulta el gráfico en imágenes.</p>
+        </details>
+        <details>
+          <summary>Reviews</summary>
+          <div id="looxReviews" aria-label="Widget de reseñas Loox"></div>
+        </details>
+        <details>
+          <summary>Preguntas</summary>
+          <p>¿Sirve para gatos? Sí, soporta gatos senior y evita saltos.</p>
+        </details>
+      </div>
+      <div class="cross-sell">
+        <h3>Clientes con perros de tu tamaño también compraron…</h3>
+        {% render 'product-recommendations', product: product, intent: 'related' %}
+      </div>
+    </div>
+  </div>
+  <div class="sticky-bar" data-sticky-bar>
+    <p>Quedan 847 unidades</p>
+    <button class="button button--primary" data-sticky-submit aria-label="Comprar ahora">Comprar ahora</button>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Producto GoldenPaenior",
+  "settings": [],
+  "presets": [{"name": "Producto GoldenPaenior"}]
+}
+{% endschema %}

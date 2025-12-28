@@ -1,0 +1,44 @@
+{% comment %}
+  Hero con video de fondo para GoldenPaeniorpetscare
+  - Usa video mp4 o YouTube embebido para mostrar perro senior utilizando rampa
+  - CTA dirige a sección de soluciones
+{% endcomment %}
+<section class="hero-video" aria-labelledby="hero-heading">
+  <div class="hero-video__background">
+    {% if section.settings.video_url != blank %}
+      <video class="hero-video__media" autoplay loop muted playsinline poster="{{ section.settings.poster | image_url: width: 1600 }}">
+        <source src="{{ section.settings.video_url }}" type="video/mp4">
+      </video>
+    {% elsif section.settings.youtube_id != blank %}
+      <iframe class="hero-video__media" src="https://www.youtube.com/embed/{{ section.settings.youtube_id }}?autoplay=1&mute=1&loop=1&controls=0&playlist={{ section.settings.youtube_id }}" title="Video rampas para perros senior" allow="autoplay; fullscreen"></iframe>
+    {% endif %}
+  </div>
+  <div class="hero-video__overlay"></div>
+  <div class="hero-video__content page-width">
+    <h1 id="hero-heading">{{ section.settings.heading }}</h1>
+    <p class="hero-video__subheading">{{ section.settings.subheading }}</p>
+    <a class="button button--primary" href="{{ section.settings.cta_link }}" aria-label="{{ section.settings.cta_text }}">{{ section.settings.cta_text }}</a>
+    <ul class="hero-video__badges" role="list">
+      <li>↩️ Devolución 30 días</li>
+      <li>🚚 Envío 5-7 días</li>
+      <li>⭐ 4.8/5 (234 reviews)</li>
+    </ul>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Hero video GoldenPaenior",
+  "tag": "section",
+  "settings": [
+    {"type": "text", "id": "heading", "label": "Título", "default": "Devuelve la movilidad a tu mejor amigo en 24h"},
+    {"type": "text", "id": "subheading", "label": "Subtítulo", "default": "Gadgets ortopédicos con envío rápido desde Europa"},
+    {"type": "text", "id": "cta_text", "label": "Texto CTA", "default": "Ver soluciones"},
+    {"type": "url", "id": "cta_link", "label": "Destino CTA", "default": "#productos"},
+    {"type": "url", "id": "video_url", "label": "URL video mp4"},
+    {"type": "image_picker", "id": "poster", "label": "Poster"},
+    {"type": "text", "id": "youtube_id", "label": "ID de YouTube"}
+  ],
+  "presets": [{"name": "Hero video GoldenPaenior"}]
+}
+{% endschema %}
